@@ -1,463 +1,393 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import {
-  ArrowRight,
   Zap,
-  TrendingUp,
-  Shield,
+  ShieldCheck,
+  Cpu,
+  ChevronRight,
+  ArrowRight,
+  BarChart3,
+  Bot,
+  MessageSquare,
+  Terminal,
+  CheckCircle2,
+  Users,
   Clock,
-  CheckCircle,
-  ChevronDown,
-  Menu,
-  X,
-} from 'lucide-react';
-import { useState } from 'react';
-import { cn } from '@/lib/utils';
+  Globe,
+  Plus,
+  Minus
+} from "lucide-react";
+import { cn } from "@/lib/utils";
 
-// Navbar Component
-function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+// --- Components ---
+
+const Navbar = () => {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/5">
-      <div className="container mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent"
-          >
-            AI Infrastructure
-          </motion.div>
-
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#solution" className="text-gray-300 hover:text-white transition-colors">
-              Solution
-            </a>
-            <a href="#process" className="text-gray-300 hover:text-white transition-colors">
-              Process
-            </a>
-            <a href="#pricing" className="text-gray-300 hover:text-white transition-colors">
-              Pricing
-            </a>
-            <a href="#faq" className="text-gray-300 hover:text-white transition-colors">
-              FAQ
-            </a>
-            <motion.a
-              href="#pricing"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full text-white font-medium hover:shadow-lg hover:shadow-blue-500/50 transition-all"
-            >
-              Get Started
-            </motion.a>
+    <nav className={cn(
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
+      scrolled ? "bg-black/80 backdrop-blur-md border-white/10 py-4" : "bg-transparent border-transparent py-6"
+    )}>
+      <div className="container mx-auto px-6 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20">
+            <Cpu className="text-white w-6 h-6" />
           </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-white"
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <span className="text-xl font-bold tracking-tighter text-white uppercase">Synthétique<span className="text-blue-500">.</span></span>
         </div>
 
-        {/* Mobile Menu */}
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="md:hidden mt-4 pb-4 flex flex-col gap-4"
-          >
-            <a href="#solution" className="text-gray-300 hover:text-white transition-colors">
-              Solution
+        <div className="hidden md:flex items-center gap-8">
+          {["Solution", "Méthodologie", "Cas clients", "FAQ"].map((item) => (
+            <a key={item} href={`#${item.toLowerCase()}`} className="text-sm font-medium text-gray-400 hover:text-white transition-colors">
+              {item}
             </a>
-            <a href="#process" className="text-gray-300 hover:text-white transition-colors">
-              Process
-            </a>
-            <a href="#pricing" className="text-gray-300 hover:text-white transition-colors">
-              Pricing
-            </a>
-            <a href="#faq" className="text-gray-300 hover:text-white transition-colors">
-              FAQ
-            </a>
-            <a
-              href="#pricing"
-              className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full text-white font-medium text-center"
-            >
-              Get Started
-            </a>
-          </motion.div>
-        )}
+          ))}
+          <button className="px-5 py-2.5 rounded-full bg-white/5 border border-white/10 text-white text-sm font-semibold hover:bg-white/10 transition-all">
+            Accès Client
+          </button>
+        </div>
       </div>
     </nav>
   );
-}
+};
 
-// Section Heading Component
-function SectionHeading({ title, subtitle }: { title: string; subtitle: string }) {
-  return (
-    <motion.div
+const Statistic = ({ value, label, prefix = "", suffix = "" }: { value: string, label: string, prefix?: string, suffix?: string }) => (
+  <div className="text-center p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+    <div className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent mb-2">
+      {prefix}{value}{suffix}
+    </div>
+    <div className="text-sm text-gray-400 uppercase tracking-widest leading-tight">{label}</div>
+  </div>
+);
+
+const SectionHeading = ({ badge, title, subtitle }: { badge: string, title: string, subtitle: string }) => (
+  <div className="text-center max-w-3xl mx-auto mb-16">
+    <motion.span
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="inline-block px-4 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-xs font-bold tracking-widest uppercase mb-4"
+    >
+      {badge}
+    </motion.span>
+    <motion.h2
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="text-center max-w-3xl mx-auto mb-16"
+      transition={{ delay: 0.1 }}
+      className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight"
     >
-      <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
-        {title}
-      </h2>
-      <p className="text-xl text-gray-400">{subtitle}</p>
-    </motion.div>
-  );
-}
-
-// Price Card Component
-function PriceCard({
-  name,
-  price,
-  period,
-  features,
-  highlighted,
-  cta,
-}: {
-  name: string;
-  price: string;
-  period: string;
-  features: string[];
-  highlighted?: boolean;
-  cta: string;
-}) {
-  return (
-    <motion.div
+      {title}
+    </motion.h2>
+    <motion.p
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      whileHover={{ y: -8 }}
-      className={cn(
-        'relative p-8 rounded-2xl border transition-all',
-        highlighted
-          ? 'bg-gradient-to-br from-blue-600/20 to-indigo-600/20 border-blue-500/50 shadow-xl shadow-blue-500/20'
-          : 'bg-black/40 border-white/10 hover:border-white/20'
-      )}
+      transition={{ delay: 0.2 }}
+      className="text-xl text-gray-400"
     >
-      {highlighted && (
-        <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full text-sm font-medium text-white">
-          RECOMMENDED
-        </div>
-      )}
-      <div className="text-center mb-8">
-        <h3 className="text-2xl font-bold text-white mb-2">{name}</h3>
-        <div className="flex items-baseline justify-center gap-2">
-          <span className="text-5xl font-bold text-white">{price}</span>
-          <span className="text-gray-400">{period}</span>
-        </div>
-      </div>
-      <ul className="space-y-4 mb-8">
-        {features.map((feature, index) => (
-          <li key={index} className="flex items-start gap-3 text-gray-300">
-            <CheckCircle className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
-            <span>{feature}</span>
-          </li>
-        ))}
-      </ul>
-      <motion.a
-        href="#contact"
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        className={cn(
-          'block w-full py-3 rounded-xl font-medium text-center transition-all',
-          highlighted
-            ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/50'
-            : 'bg-white/10 text-white hover:bg-white/20'
-        )}
+      {subtitle}
+    </motion.p>
+  </div>
+);
+
+const FeatureCard = ({ iconPath: Icon, title, description, items }: { iconPath: any, title: string, description: string, items: string[] }) => (
+  <motion.div
+    whileHover={{ y: -5 }}
+    className="p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-sm hover:border-blue-500/50 transition-all duration-500 flex flex-col h-full"
+  >
+    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mb-6 shadow-xl shadow-blue-500/20">
+      <Icon className="text-white w-7 h-7" />
+    </div>
+    <h3 className="text-2xl font-bold text-white mb-4">{title}</h3>
+    <p className="text-gray-400 mb-8 leading-relaxed">{description}</p>
+    <ul className="mt-auto space-y-3">
+      {items.map((item, idx) => (
+        <li key={idx} className="flex items-start gap-3 text-sm text-gray-300">
+          <CheckCircle2 className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  </motion.div>
+);
+
+const AccordionItem = ({ question, answer }: { question: string, answer: string }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div className="border-b border-white/10">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full py-6 flex items-center justify-between text-left focus:outline-none"
       >
-        {cta}
-      </motion.a>
-    </motion.div>
+        <span className="text-lg font-semibold text-white">{question}</span>
+        {isOpen ? <Minus className="text-blue-500 w-5 h-5" /> : <Plus className="text-blue-500 w-5 h-5" />}
+      </button>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="overflow-hidden"
+          >
+            <div className="pb-6 text-gray-400 leading-relaxed max-w-4xl">
+              {answer}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
-}
+};
 
-// Main Landing Page
-export default function LandingPage() {
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
+// --- Main Page ---
 
-  const faqs = [
-    {
-      q: "How long does implementation take?",
-      a: "Lite tier deploys in 2-3 weeks. Production tier: 4-6 weeks. Enterprise: 8-12 weeks with full custom integration."
-    },
-    {
-      q: "Do we need technical expertise?",
-      a: "No. We handle installation, training, and onboarding. Your team uses natural language to command the AI."
-    },
-    {
-      q: "What's the ROI?",
-      a: "Clients typically see 40-60% time savings within 90 days. Engineering velocity increases 3-5x on average."
-    },
-    {
-      q: "Can we customize the agents?",
-      a: "Yes. Production and Enterprise tiers include custom agent development tailored to your exact workflows."
-    },
-    {
-      q: "Is our data secure?",
-      a: "Absolutely. All implementations are deployed on your infrastructure. Data never leaves your environment."
-    },
-  ];
+export default function AIInfrastructureLanding() {
+  const { scrollYProgress } = useScroll();
+  const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <main className="bg-black text-white font-sans selection:bg-blue-500/30">
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-6 overflow-hidden">
-        {/* Background Effects */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-black to-indigo-600/20" />
-        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
+      <header className="relative min-h-screen flex items-center pt-28 pb-20 overflow-hidden">
+        {/* Dynamic Background */}
+        <div className="absolute inset-0 z-0">
+          <motion.div style={{ y: yBg }} className="absolute inset-0 opacity-40">
+            <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-600/20 blur-[120px] rounded-full" />
+            <div className="absolute bottom-[20%] right-[-5%] w-[40%] h-[40%] bg-indigo-600/20 blur-[100px] rounded-full" />
+          </motion.div>
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+        </div>
 
-        <div className="container mx-auto relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-5xl mx-auto text-center"
-          >
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-5xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-full text-blue-400 text-sm font-medium mb-8"
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-blue-500/20 bg-blue-500/5 backdrop-blur-md mb-8"
             >
-              <Zap className="w-4 h-4" />
-              Deploy AI agents in weeks, not years
+              <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+              <span className="text-xs font-semibold tracking-widest text-blue-400 uppercase">Architecture IA Haute Performance</span>
             </motion.div>
 
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
-              SCALE REVENUE AT
-              <br />
-              <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-blue-400 bg-clip-text text-transparent">
-                SYNTHETIC VELOCITY
-              </span>
-            </h1>
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="text-6xl md:text-8xl font-black text-white leading-[1.05] tracking-tight mb-8"
+            >
+              L&apos;IA n&apos;est plus une option. <br />
+              <span className="bg-gradient-to-r from-blue-500 via-indigo-400 to-blue-600 bg-clip-text text-transparent">C&apos;est votre avantage injuste.</span>
+            </motion.h1>
 
-            <p className="text-xl md:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed">
-              Install Claude Code, autonomous agents, and AI skills directly into your enterprise.
-              <span className="text-white font-medium"> Automate processes. Compress timelines. Ship faster than your competitors can react.</span>
-            </p>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed"
+            >
+              Ne regardez pas vos concurrents automatiser leur croissance. Déployez une infrastructure d&apos;agents autonomes et de skills IA pour transformer votre entreprise en moteur de vélocité synthétique.
+            </motion.p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <motion.a
-                href="#pricing"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full text-lg font-medium shadow-xl shadow-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/60 transition-all flex items-center gap-2"
-              >
-                Deploy Your Infrastructure
-                <ArrowRight className="w-5 h-5" />
-              </motion.a>
-              <motion.a
-                href="#process"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-white/10 backdrop-blur-sm rounded-full text-lg font-medium hover:bg-white/20 transition-all"
-              >
-                See How It Works
-              </motion.a>
-            </div>
-          </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-5"
+            >
+              <button className="group relative px-8 py-5 bg-white text-black font-bold text-lg rounded-full overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-2xl shadow-white/10">
+                <span className="relative z-10 flex items-center gap-2">
+                  Réserver un Audit Stratégique Gratuit
+                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-white -z-0" />
+              </button>
+              <button className="px-8 py-5 bg-white/5 border border-white/10 text-white font-bold text-lg rounded-full hover:bg-white/10 transition-all backdrop-blur-sm">
+                Consulter un expert IA
+              </button>
+            </motion.div>
 
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mt-20"
-          >
-            {[
-              { value: '3-5x', label: 'Engineering Velocity' },
-              { value: '60%', label: 'Time Saved' },
-              { value: '2-3 weeks', label: 'Implementation' },
-            ].map((stat, index) => (
-              <div key={index} className="text-center p-6 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10">
-                <div className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent mb-2">
-                  {stat.value}
-                </div>
-                <div className="text-gray-400">{stat.label}</div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1, duration: 1 }}
+              className="mt-20 pt-10 border-t border-white/10 flex flex-wrap justify-center gap-12 grayscale opacity-60"
+            >
+              {/* Logos placeholders */}
+              <div className="flex items-center gap-2 font-bold text-xl tracking-tighter">AI-ALLIANCE</div>
+              <div className="flex items-center gap-2 font-bold text-xl tracking-tighter">FUTURECORE</div>
+              <div className="flex items-center gap-2 font-bold text-xl tracking-tighter">QUANTUM-SYS</div>
+              <div className="flex items-center gap-2 font-bold text-xl tracking-tighter">NEXUS-ENT</div>
+            </motion.div>
+          </div>
+        </div>
+      </header>
+
+      {/* The Problem Section */}
+      <section className="py-24 bg-zinc-950">
+        <div className="container mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-20 items-center">
+            <div>
+              <span className="text-blue-500 font-bold uppercase tracking-widest text-sm mb-4 block">Le Risque d&apos;Obsolescence</span>
+              <h2 className="text-4xl md:text-5xl font-bold mb-8 leading-tight">
+                Pendant que vous recrutez, vos concurrents <span className="text-blue-500">déploient</span>.
+              </h2>
+              <p className="text-lg text-gray-400 mb-10 leading-relaxed">
+                Le paradigme du scaling linéaire est mort. Les entreprises qui dominent le marché ne cherchent plus à augmenter leur masse salariale par 10, elles multiplient par 100 leur capacité d&apos;exécution via des infrastructures autonomes.
+              </p>
+
+              <div className="space-y-6">
+                {[
+                  { title: "Dette Opérationnelle", desc: "Vos équipes passent 60% de leur temps sur des tâches à faible valeur ajoutée." },
+                  { title: "Goulot d'Étranglement Technique", desc: "Votre cycle de développement (SDLC) est freiné par des processus manuels dépassés." },
+                  { title: "Scalabilité Capée", desc: "Votre croissance est limitée par le temps humain disponible au lieu de votre vision." }
+                ].map((item, i) => (
+                  <div key={i} className="flex gap-4 p-4 rounded-2xl hover:bg-white/5 transition-colors group">
+                    <div className="shrink-0 w-10 h-10 rounded-full border border-red-500/30 flex items-center justify-center text-red-500 bg-red-500/5 group-hover:bg-red-500/10 transition-colors">
+                      <Zap className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white mb-1">{item.title}</h4>
+                      <p className="text-sm text-gray-400">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </motion.div>
-        </div>
+            </div>
 
-        {/* Scroll Indicator */}
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        >
-          <ChevronDown className="w-8 h-8 text-gray-600" />
-        </motion.div>
-      </section>
-
-      {/* Problem Section */}
-      <section className="py-20 px-6 bg-gradient-to-b from-black to-gray-900">
-        <div className="container mx-auto">
-          <SectionHeading
-            title="Your Competition Isn't Sleeping"
-            subtitle="While you're hiring, training, and scaling linearly—they're deploying AI agents that work 24/7"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {[
-              {
-                icon: Clock,
-                problem: 'Engineering bottlenecks killing velocity',
-                impact: 'Features delayed by months. Releases missed.',
-              },
-              {
-                icon: TrendingUp,
-                problem: 'Manual processes eating revenue',
-                impact: 'Teams stuck on repetitive work instead of innovation.',
-              },
-              {
-                icon: Shield,
-                problem: 'Legacy tools cannot keep pace',
-                impact: 'Competitors with AI infrastructure are outshipping you 10:1.',
-              },
-              {
-                icon: Zap,
-                problem: 'No AI deployment expertise',
-                impact: 'You know you need this, but do not know where to start.',
-              },
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="p-6 bg-black/40 border border-red-500/20 rounded-xl hover:border-red-500/40 transition-all"
-              >
-                <item.icon className="w-12 h-12 text-red-400 mb-4" />
-                <h3 className="text-xl font-bold mb-2 text-white">{item.problem}</h3>
-                <p className="text-gray-400">{item.impact}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Solution Section */}
-      <section id="solution" className="py-20 px-6 bg-gray-900">
-        <div className="container mx-auto">
-          <SectionHeading
-            title="Deploy AI Infrastructure In Weeks"
-            subtitle="Full-stack AI deployment: Claude Code, autonomous agents, automation skills, and custom dashboards"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {[
-              {
-                icon: Zap,
-                title: 'Claude Code Installation',
-                description: 'Production-grade Claude Code deployment with your codebase integrated. Command your entire stack via natural language.',
-                features: ['Custom integrations', 'Team training', 'Security hardening'],
-              },
-              {
-                icon: TrendingUp,
-                title: 'Autonomous AI Agents',
-                description: '184+ specialized sub-agents that handle engineering, design, marketing, sales, and operations autonomously.',
-                features: ['Pre-trained agents', 'Custom agent dev', 'Multi-agent orchestration'],
-              },
-              {
-                icon: Shield,
-                title: 'Automation Skills Library',
-                description: '85+ automation skills for testing, deployment, debugging, research, and workflow acceleration.',
-                features: ['Plug-and-play skills', 'Custom skill creation', 'Team dashboards'],
-              },
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -8 }}
-                className="p-8 bg-gradient-to-br from-blue-600/10 to-indigo-600/10 border border-blue-500/20 rounded-xl hover:border-blue-500/40 transition-all"
-              >
-                <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mb-6">
-                  <item.icon className="w-7 h-7 text-white" />
+            <div className="relative">
+              <div className="absolute -inset-4 bg-gradient-to-tr from-blue-500/20 to-indigo-500/20 rounded-3xl blur-2xl" />
+              <div className="relative aspect-square rounded-3xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center p-8 backdrop-blur-xl">
+                <div className="w-full h-full border border-white/10 rounded-2xl bg-black/50 p-6 flex flex-col items-center justify-center text-center">
+                  <div className="w-20 h-20 bg-blue-500/20 rounded-full flex items-center justify-center mb-6 animate-pulse">
+                    <Zap className="text-blue-400 w-10 h-10" />
+                  </div>
+                  <div className="text-5xl font-black text-white mb-2">3.5x</div>
+                  <div className="text-gray-400 font-medium uppercase tracking-tighter">Accélération de la Vélocité de Delivery</div>
+                  <div className="mt-8 grid grid-cols-2 gap-4 w-full">
+                    <div className="p-3 bg-white/5 border border-white/10 rounded-lg text-sm">-80% Support</div>
+                    <div className="p-3 bg-white/5 border border-white/10 rounded-lg text-sm">+200% Output</div>
+                  </div>
                 </div>
-                <h3 className="text-2xl font-bold mb-3 text-white">{item.title}</h3>
-                <p className="text-gray-400 mb-6">{item.description}</p>
-                <ul className="space-y-2">
-                  {item.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-center gap-2 text-sm text-gray-300">
-                      <CheckCircle className="w-4 h-4 text-blue-400" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* How It Works */}
-      <section id="process" className="py-20 px-6 bg-black">
-        <div className="container mx-auto">
+      {/* Solutions Section */}
+      <section id="solution" className="py-32 relative">
+        <div className="container mx-auto px-6">
           <SectionHeading
-            title="Deploy In 4 Steps"
-            subtitle="From discovery call to production deployment in weeks"
+            badge="Infrastructure IA"
+            title="L'Écosystème du Futur, Aujourd'hui."
+            subtitle="Une orchestration complexe et robuste conçue pour les exigences de l'entreprise moderne."
           />
 
-          <div className="max-w-4xl mx-auto space-y-8">
+          <div className="grid md:grid-cols-3 gap-8">
+            <FeatureCard
+              iconPath={Terminal}
+              title="Ingénierie de Précision"
+              description="Déploiement de Claude Code au cœur de vos équipes tech pour un cycle de développement sans friction."
+              items={[
+                "Implémentation intégrée à votre CI/CD",
+                "Pairs d'IA programmés pour votre stack",
+                "Réduction du Time-to-Market de 65%",
+                "Outils d'autocorrection des bugs"
+              ]}
+            />
+            <FeatureCard
+              iconPath={Bot}
+              title="Cerveau Synthétique"
+              description="184+ agents IA autonomes programmés pour chaque département — Vente, Marketing, Ops et HR."
+              items={[
+                "Support client 24/7 hyper-personnalisé",
+                "Génération de leads à haute vélocité",
+                "Audit financier automatisé en temps réel",
+                "Agents de design et de contenu"
+              ]}
+            />
+            <FeatureCard
+              iconPath={Zap}
+              title="Auto-Skills & Workflows"
+              description="85+ briques d'automatisation avancées pour lier chaque outil de votre écosystème."
+              items={[
+                "Cross-platform data synchronization",
+                "Intelligence décisionnelle automatisée",
+                "Élimination des tâches répétitives",
+                "Reporting prédictif par IA"
+              ]}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* How it Works / Timeline */}
+      <section id="méthodologie" className="py-32 bg-zinc-950">
+        <div className="container mx-auto px-6 font-sans">
+          <SectionHeading
+            badge="Le Processus"
+            title="Votre Transformation en 4 Étapes"
+            subtitle="D'une infrastructure rigide vers une agilité totale par l'IA."
+          />
+
+          <div className="max-w-5xl mx-auto space-y-8">
             {[
               {
-                step: '01',
-                title: 'Discovery & Assessment',
-                description: 'We audit your workflows, identify automation opportunities, and design your custom AI infrastructure plan.',
-                duration: '1 week',
+                step: "01",
+                title: "Audit Stratégique & GAP Analysis",
+                desc: "Analyse profonde de vos goulots d'étranglement opérationnels et identification des opportunités d'implémentation IA à fort ROI.",
+                tag: "Semaine 1"
               },
               {
-                step: '02',
-                title: 'Installation & Integration',
-                description: 'Deploy Claude Code, install agents and skills, integrate with your codebase, tools, and APIs.',
-                duration: '1-2 weeks',
+                step: "02",
+                title: "Architecture & Blueprints",
+                desc: "Design de votre écosystème d'agents personnalisé. Nous définissons les protocoles de sécurité et l'architecture cloud souveraine.",
+                tag: "Semaine 2-3"
               },
               {
-                step: '03',
-                title: 'Training & Onboarding',
-                description: 'Hands-on training for your team. Learn to command agents, create workflows, and maximize velocity.',
-                duration: '1 week',
+                step: "03",
+                title: "Déploiement & Intégration",
+                desc: "Mise en service des 184+ agents et configuration des skills d'automatisation dans vos flux existants sans interruption.",
+                tag: "Semaine 4-8"
               },
               {
-                step: '04',
-                title: 'Production & Optimization',
-                description: 'Go live with full support. We monitor performance, optimize agents, and scale as you grow.',
-                duration: 'Ongoing',
-              },
-            ].map((item, index) => (
+                step: "04",
+                title: "Scale & Support Continu",
+                desc: "Formation de vos cadres (C-level & Directors) et optimisation continue des performances des agents par nos ingénieurs.",
+                tag: "Continu"
+              }
+            ].map((item, id) => (
               <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -30 }}
+                key={id}
+                initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="flex gap-6 p-6 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-blue-500/30 transition-all"
+                className="group relative flex flex-col md:flex-row gap-8 p-8 border border-white/5 rounded-3xl bg-white/[0.02] hover:bg-white/[0.04] transition-all"
               >
-                <div className="text-5xl font-bold bg-gradient-to-br from-blue-400 to-indigo-400 bg-clip-text text-transparent flex-shrink-0">
+                <div className="text-5xl font-black text-white/10 group-hover:text-blue-500/20 transition-colors shrink-0 leading-none">
                   {item.step}
                 </div>
-                <div className="flex-1">
-                  <div className="flex items-center justify-between mb-2">
+                <div>
+                  <div className="flex items-center gap-3 mb-4">
                     <h3 className="text-2xl font-bold text-white">{item.title}</h3>
-                    <span className="text-sm text-gray-400 bg-white/5 px-3 py-1 rounded-full">
-                      {item.duration}
-                    </span>
+                    <span className="px-3 py-1 bg-blue-500/10 text-blue-400 text-[10px] font-bold uppercase rounded-full border border-blue-500/20">{item.tag}</span>
                   </div>
-                  <p className="text-gray-400">{item.description}</p>
+                  <p className="text-gray-400 text-lg leading-relaxed">{item.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -465,212 +395,139 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Results Section */}
-      <section className="py-20 px-6 bg-gradient-to-b from-black to-gray-900">
-        <div className="container mx-auto">
-          <SectionHeading
-            title="Results Our Clients See"
-            subtitle="Real impact within 90 days of deployment"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-            {[
-              { metric: '3-5x', label: 'Engineering Velocity Increase', icon: Zap },
-              { metric: '60%', label: 'Time Saved on Repetitive Tasks', icon: Clock },
-              { metric: '10x', label: 'Faster Deployment Cycles', icon: TrendingUp },
-              { metric: '24/7', label: 'Autonomous Agent Operations', icon: Shield },
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="text-center p-8 bg-gradient-to-br from-blue-600/10 to-indigo-600/10 border border-blue-500/20 rounded-xl"
-              >
-                <item.icon className="w-12 h-12 text-blue-400 mx-auto mb-4" />
-                <div className="text-5xl font-bold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent mb-2">
-                  {item.metric}
-                </div>
-                <div className="text-gray-400">{item.label}</div>
-              </motion.div>
-            ))}
+      {/* Metrics Section */}
+      <section className="py-32 relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[300px] bg-blue-500/5 blur-[120px] rounded-full pointer-events-none" />
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <Statistic value="310" label="Gain de productivité" suffix="%" />
+            <Statistic value="500k" label="Économie annuelle ops" prefix="€" />
+            <Statistic value="24/7" label="Disponibilité agents" />
+            <Statistic value="0" label="Latence de recrutement" />
           </div>
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className="py-20 px-6 bg-gray-900">
-        <div className="container mx-auto">
-          <SectionHeading
-            title="Choose Your Infrastructure Tier"
-            subtitle="All plans include Claude Code, agents, skills, training, and support"
-          />
+      {/* Urgency Section */}
+      <section className="py-24">
+        <div className="container mx-auto px-6">
+          <div className="bg-gradient-to-br from-blue-900/40 to-indigo-900/40 border border-blue-500/20 rounded-[3rem] p-12 md:p-20 relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-12 opacity-10 pointer-events-none">
+              <Clock className="w-64 h-64" />
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <PriceCard
-              name="Lite"
-              price="$2,500"
-              period="/month"
-              features={[
-                'Claude Code installation',
-                '50+ pre-built automation skills',
-                '20+ autonomous agents',
-                'Basic dashboard',
-                'Email support',
-                'Team training (up to 5 users)',
-              ]}
-              cta="Start with Lite"
-            />
-            <PriceCard
-              name="Production"
-              price="$5,000"
-              period="/month"
-              features={[
-                'Everything in Lite, plus:',
-                '85+ automation skills',
-                '184+ specialized agents',
-                'Custom agent development',
-                'Priority support (24/7)',
-                'Team training (up to 20 users)',
-                'Custom integrations',
-                'Performance monitoring',
-              ]}
-              highlighted
-              cta="Deploy Production"
-            />
-            <PriceCard
-              name="Enterprise"
-              price="$12,000"
-              period="/month"
-              features={[
-                'Everything in Production, plus:',
-                'Unlimited custom agents',
-                'Unlimited custom skills',
-                'Dedicated success manager',
-                'White-glove onboarding',
-                'Unlimited users',
-                'Custom dashboard & analytics',
-                'SLA guarantees',
-              ]}
-              cta="Contact Sales"
-            />
+            <div className="max-w-3xl relative z-10">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">La fenêtre stratégique se referme.</h2>
+              <div className="space-y-6 text-xl text-gray-300 mb-12">
+                <p>
+                  Dans 24 mois, chaque entreprise de votre secteur possédera une infrastructure IA. À ce stade, ce ne sera plus un avantage, mais un prérequis de survie.
+                </p>
+                <p className="font-semibold text-white">
+                  Ceux qui déploient aujourd&apos;hui créent un écart de performance qu&apos;il sera impossible de rattraper demain.
+                </p>
+              </div>
+              <button className="px-8 py-5 bg-white text-black font-bold text-lg rounded-full flex items-center gap-3 hover:scale-105 transition-all">
+                Saisir l&apos;avantage maintenant
+                <ArrowRight className="w-6 h-6" />
+              </button>
+            </div>
           </div>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="text-center text-gray-400 mt-12 max-w-2xl mx-auto"
-          >
-            All plans include ongoing updates, security patches, and access to new agents and skills as they're released.
-            <span className="text-white font-medium"> No hidden fees. Cancel anytime.</span>
-          </motion.p>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="py-20 px-6 bg-black">
-        <div className="container mx-auto max-w-3xl">
-          <SectionHeading
-            title="Frequently Asked Questions"
-            subtitle="Everything you need to know about AI infrastructure deployment"
-          />
-
-          <div className="space-y-4">
-            {faqs.map((faq, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden"
-              >
-                <button
-                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                  className="w-full p-6 text-left flex items-center justify-between hover:bg-white/5 transition-colors"
-                >
-                  <span className="text-lg font-medium text-white">{faq.q}</span>
-                  <motion.div
-                    animate={{ rotate: openFaq === index ? 180 : 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <ChevronDown className="w-5 h-5 text-gray-400" />
-                  </motion.div>
-                </button>
-                {openFaq === index && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="px-6 pb-6 text-gray-400"
-                  >
-                    {faq.a}
-                  </motion.div>
-                )}
-              </motion.div>
-            ))}
+      <section id="faq" className="py-32 bg-zinc-950">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold mb-4">Questions Fréquentes</h2>
+              <p className="text-gray-400">Tout ce que vous devez savoir avant d&apos;engager votre transition.</p>
+            </div>
+            <div className="space-y-2">
+              <AccordionItem
+                question="Comment garantissez-vous la sécurité de nos données ?"
+                answer="Nous déployons des instances IA souveraines et cloisonnées. Vos données ne sont jamais utilisées pour entraîner des modèles publics. Chaque agent respecte les protocoles de sécurité les plus stricts (SOC2 Type II, RGPD)."
+              />
+              <AccordionItem
+                question="L'installation nécessite-t-elle de changer nos outils actuels ?"
+                answer="Non. Nos infrastructures sont conçues pour se greffer sur vos logiciels existants (Slack, Salesforce, Jira, GitHub, Notion, etc.) via des connecteurs natifs ou des protocoles API personnalisés."
+              />
+              <AccordionItem
+                question="Quel est le délai moyen pour voir les premiers résultats ?"
+                answer="Dès la première phase d'audit (semaine 1), nous identifions des 'Quick Wins'. Le déploiement complet prend généralement 4 à 8 semaines, mais l'accélération tech commence dès le 15ème jour."
+              />
+              <AccordionItem
+                question="Formez-vous nos équipes à collaborer avec les agents ?"
+                answer="Absolument. La technologie n'est rien sans l'humain. Nous organisons des workshops intensifs pour vos leaders et vos équipes afin qu'ils apprennent à piloter cette nouvelle force de travail synthétique."
+              />
+              <AccordionItem
+                question="Peut-on commander des agents personnalisés pour des besoins spécifiques ?"
+                answer="C'est notre spécialité. Au-delà des agents standards, nous concevons des agents 'maison' entraînés sur vos connaissances métiers spécifiques et vos processus propriétaires."
+              />
+            </div>
           </div>
         </div>
       </section>
 
       {/* Final CTA */}
-      <section className="py-20 px-6 bg-gradient-to-br from-blue-600/20 via-black to-indigo-600/20">
-        <div className="container mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="max-w-4xl mx-auto text-center"
-          >
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">
-              Ready To Deploy AI Infrastructure?
+      <section className="py-32 border-t border-white/5 relative overflow-hidden">
+        <div className="absolute inset-0 bg-blue-600/5 backdrop-blur-3xl -z-10" />
+        <div className="container mx-auto px-6 text-center">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-5xl md:text-7xl font-black text-white mb-8 tracking-tighter">
+              Rejoignez le top 1% des entreprises AI-First.
             </h2>
-            <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
-              Join the enterprises already shipping at synthetic velocity. Your competitors will not wait—and neither should you.
+            <p className="text-2xl text-gray-400 mb-12 max-w-2xl mx-auto">
+              Transformez votre structure organisationnelle avant que le marché ne vous y oblige.
             </p>
-            <motion.a
-              href="#pricing"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full text-lg font-medium shadow-xl shadow-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/60 transition-all"
+
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              className="inline-block p-1 rounded-[2.5rem] bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-500 shadow-2xl shadow-blue-500/20"
             >
-              Get Started Now
-              <ArrowRight className="w-5 h-5" />
-            </motion.a>
-          </motion.div>
+              <div className="bg-black rounded-[2.3rem] p-4 flex flex-col md:flex-row items-center gap-6 md:gap-12 px-12 py-8">
+                <div className="text-left">
+                  <div className="text-white font-bold text-xl mb-1">Audit Stratégique Offert</div>
+                  <div className="text-gray-400 text-sm">Valeur de la session : 1 250 € — Places limitées.</div>
+                </div>
+                <button className="px-10 py-5 bg-white text-black font-black uppercase text-sm tracking-widest rounded-full hover:bg-blue-50 hover:shadow-lg transition-all">
+                  Réserver mon appel stratégique
+                </button>
+              </div>
+            </motion.div>
+
+            <div className="mt-12 flex items-center justify-center gap-8 text-gray-500 text-sm">
+              <span className="flex items-center gap-2"><ShieldCheck className="w-4 h-4" /> Sans engagement</span>
+              <span className="flex items-center gap-2"><Users className="w-4 h-4" /> Consulting de haut niveau</span>
+              <span className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> Plan d&apos;action concret</span>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-6 bg-black border-t border-white/5">
-        <div className="container mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
-              AI Infrastructure
+      <footer className="py-12 border-t border-white/10 bg-black">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                <Cpu className="text-white w-5 h-5" />
+              </div>
+              <span className="text-lg font-bold tracking-tighter text-white uppercase">Synthétique<span className="text-blue-500">.</span></span>
             </div>
-            <div className="flex gap-8 text-gray-400">
-              <a href="#solution" className="hover:text-white transition-colors">
-                Solution
-              </a>
-              <a href="#process" className="hover:text-white transition-colors">
-                Process
-              </a>
-              <a href="#pricing" className="hover:text-white transition-colors">
-                Pricing
-              </a>
-              <a href="#faq" className="hover:text-white transition-colors">
-                FAQ
-              </a>
+
+            <div className="flex gap-8 text-sm text-gray-500 font-medium">
+              <a href="#" className="hover:text-white transition-colors">Mentions Légales</a>
+              <a href="#" className="hover:text-white transition-colors">Confidentialité</a>
+              <a href="#" className="hover:text-white transition-colors">Contact</a>
             </div>
-          </div>
-          <div className="mt-8 pt-8 border-t border-white/5 text-center text-gray-500 text-sm">
-            © 2026 AI Infrastructure. Deploy autonomous AI at enterprise scale.
+
+            <div className="text-sm text-gray-600">
+              © 2024 Synthétique AI Infrastructure. Tous droits réservés.
+            </div>
           </div>
         </div>
       </footer>
-    </div>
+    </main>
   );
 }
