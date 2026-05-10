@@ -321,13 +321,13 @@ export default function LandingPage() {
               },
               {
                 icon: Shield,
-                problem: 'Legacy tools can't keep pace',
+                problem: 'Legacy tools cannot keep pace',
                 impact: 'Competitors with AI infrastructure are outshipping you 10:1.',
               },
               {
                 icon: Zap,
                 problem: 'No AI deployment expertise',
-                impact: 'You know you need this, but don't know where to start.',
+                impact: 'You know you need this, but do not know where to start.',
               },
             ].map((item, index) => (
               <motion.div
@@ -629,7 +629,7 @@ export default function LandingPage() {
               Ready To Deploy AI Infrastructure?
             </h2>
             <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
-              Join the enterprises already shipping at synthetic velocity. Your competitors won't wait—and neither should you.
+              Join the enterprises already shipping at synthetic velocity. Your competitors will not wait—and neither should you.
             </p>
             <motion.a
               href="#pricing"
