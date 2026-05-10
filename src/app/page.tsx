@@ -64,28 +64,6 @@ const BackgroundDecoration = () => {
         className="absolute top-1/3 -left-40 w-[600px] h-[600px] bg-gradient-to-tr from-red-100/30 via-rose-100/20 to-transparent rounded-full blur-3xl"
       />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-tl from-red-200/20 to-transparent rounded-full blur-3xl" />
-
-      {/* Floating particles */}
-      {[...Array(15)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-1 h-1 bg-red-400/30 rounded-full"
-          initial={{
-            x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1000),
-            y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1000),
-          }}
-          animate={{
-            x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1000),
-            y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1000),
-          }}
-          transition={{
-            duration: Math.random() * 20 + 15,
-            repeat: Infinity,
-            repeatType: "reverse",
-            ease: "linear"
-          }}
-        />
-      ))}
     </div>
   );
 };
