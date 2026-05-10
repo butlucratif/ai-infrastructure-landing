@@ -45,24 +45,13 @@ const FadeIn = ({ children, delay = 0, direction = "up" }: { children: React.Rea
   );
 };
 
-// Background decoration with RED theme
+// Background decoration with RED theme (static - no parallax to avoid SSR issues)
 const BackgroundDecoration = () => {
-  const { scrollYProgress } = useScroll();
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, 300]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, -200]);
-  const opacity1 = useTransform(scrollYProgress, [0, 500], [0.4, 0.1]);
-
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none">
-      {/* RED Gradient orbs with parallax */}
-      <motion.div
-        style={{ y: y1, opacity: opacity1 }}
-        className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-gradient-to-br from-red-200/40 via-rose-200/30 to-transparent rounded-full blur-3xl"
-      />
-      <motion.div
-        style={{ y: y2 }}
-        className="absolute top-1/3 -left-40 w-[600px] h-[600px] bg-gradient-to-tr from-red-100/30 via-rose-100/20 to-transparent rounded-full blur-3xl"
-      />
+      {/* RED Gradient orbs - static */}
+      <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-gradient-to-br from-red-200/40 via-rose-200/30 to-transparent rounded-full blur-3xl" />
+      <div className="absolute top-1/3 -left-40 w-[600px] h-[600px] bg-gradient-to-tr from-red-100/30 via-rose-100/20 to-transparent rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-tl from-red-200/20 to-transparent rounded-full blur-3xl" />
     </div>
   );
@@ -156,7 +145,6 @@ export default function AIInfrastructureLanding() {
   const [employees, setEmployees] = useState(50);
   const savings = Math.round(employees * 9000); // €9k per employee/year
   const hoursPerMonth = employees * 40;
-  const { scrollYProgress } = useScroll();
 
   // Sticky CTA on scroll
   useEffect(() => {
@@ -1099,16 +1087,6 @@ export default function AIInfrastructureLanding() {
         )}
       </AnimatePresence>
 
-      {/* Progress bar */}
-      <div className="fixed top-0 left-0 right-0 h-1 bg-slate-100 z-50">
-        <motion.div
-          className="h-full bg-gradient-to-r from-red-600 to-red-700"
-          style={{
-            scaleX: scrollYProgress,
-            transformOrigin: "0%"
-          }}
-        />
-      </div>
     </main>
   );
 }
