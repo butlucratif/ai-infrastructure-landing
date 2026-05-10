@@ -178,6 +178,7 @@ export default function AIInfrastructureLanding() {
   const [employees, setEmployees] = useState(50);
   const savings = Math.round(employees * 9000); // €9k per employee/year
   const hoursPerMonth = employees * 40;
+  const { scrollYProgress } = useScroll();
 
   // Sticky CTA on scroll
   useEffect(() => {
@@ -1125,7 +1126,7 @@ export default function AIInfrastructureLanding() {
         <motion.div
           className="h-full bg-gradient-to-r from-red-600 to-red-700"
           style={{
-            scaleX: useScroll().scrollYProgress,
+            scaleX: scrollYProgress,
             transformOrigin: "0%"
           }}
         />
