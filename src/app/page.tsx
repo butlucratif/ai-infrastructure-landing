@@ -169,8 +169,8 @@ export default function AIInfrastructureLanding() {
               className="flex items-center gap-2.5"
             >
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-red-500 to-red-700 rounded-xl blur-sm opacity-40" />
-                <div className="relative w-9 h-9 bg-gradient-to-br from-red-600 to-red-700 rounded-xl flex items-center justify-center">
+                <div className="absolute inset-0 rounded-xl blur-sm opacity-40" style={{ background: 'var(--primary)' }} />
+                <div className="relative w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'var(--primary)' }}>
                   <Sparkles className="w-5 h-5 text-white" />
                 </div>
               </div>
@@ -190,7 +190,7 @@ export default function AIInfrastructureLanding() {
                   className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors relative group"
                 >
                   {item}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-red-600 to-red-700 group-hover:w-full transition-all duration-300" />
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[var(--primary)] group-hover:w-full transition-all duration-300" />
                 </motion.a>
               ))}
             </div>
@@ -200,9 +200,10 @@ export default function AIInfrastructureLanding() {
               animate={{ opacity: 1, x: 0 }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 rounded-full transition-all shadow-lg shadow-red-500/25"
+              style={{ background: 'var(--primary)' }}
+              className="px-5 py-2.5 text-sm font-semibold text-white rounded-full transition-all shadow-lg hover:opacity-90"
             >
-              Audit gratuit → 3 places/mois
+              Audit gratuit
             </motion.button>
           </div>
         </div>
@@ -220,58 +221,21 @@ export default function AIInfrastructureLanding() {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-red-600" />
                   </div>
-                  <span className="text-sm font-medium bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
+                  <span className="text-sm font-medium bg-[var(--primary)] bg-clip-text text-transparent">
                     Déjà 50+ entreprises françaises automatisées • +€2.1M économisés
                   </span>
                 </div>
               </FadeIn>
 
-              {/* URGENCY Badge */}
-              <FadeIn delay={0.25}>
-                <motion.div
-                  animate={{
-                    boxShadow: [
-                      "0 0 0 0 rgba(225, 29, 72, 0)",
-                      "0 0 0 8px rgba(225, 29, 72, 0.1)",
-                      "0 0 0 0 rgba(225, 29, 72, 0)"
-                    ]
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    repeatType: "loop"
-                  }}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 border border-amber-200 rounded-full"
-                >
-                  <Clock className="w-4 h-4 text-amber-600" />
-                  <span className="text-sm font-medium text-amber-900">
-                    Seulement 3 audits disponibles ce mois-ci
-                  </span>
-                </motion.div>
-              </FadeIn>
-
               <FadeIn delay={0.3}>
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight">
-                  {["Économisez ", <span key="40h" className="text-red-600">40h/semaine</span>, " par employé avec des agents IA"].map((word, i) => (
-                    <motion.span
-                      key={i}
-                      initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
-                      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                      transition={{
-                        delay: 0.3 + i * 0.1,
-                        duration: 0.8,
-                        ease: [0.21, 0.47, 0.32, 0.98]
-                      }}
-                    >
-                      {word}
-                    </motion.span>
-                  ))}
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight" style={{ color: 'var(--text)' }}>
+                  Économisez 40h/semaine par employé avec des agents IA
                 </h1>
               </FadeIn>
 
               <FadeIn delay={0.5}>
                 <p className="text-xl text-slate-600 leading-relaxed max-w-xl">
-                  Réduisez vos coûts opérationnels de <em className="font-bold not-italic text-red-600">63% en moyenne</em>.
+                  Réduisez vos coûts opérationnels de <em className="font-bold not-italic text-[var(--primary)]">63% en moyenne</em>.
                   Déploiement en <em className="font-bold not-italic">4 semaines</em>.
                   Sans remplacer vos outils actuels. <em className="font-bold not-italic">Garantie ROI sous 12 mois</em>.
                 </p>
@@ -280,11 +244,12 @@ export default function AIInfrastructureLanding() {
               <FadeIn delay={0.6}>
                 <div className="flex flex-wrap items-center gap-4">
                   <RippleButton
-                    whileHover={{ scale: 1.05, y: -4, rotateX: 5 }}
+                    whileHover={{ scale: 1.05, y: -4 }}
                     whileTap={{ scale: 0.95 }}
-                    className="group px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold rounded-full transition-all shadow-xl shadow-red-500/30 hover:shadow-2xl hover:shadow-red-500/40 flex items-center gap-2"
+                    style={{ background: 'var(--primary)' }}
+                    className="group px-8 py-4 text-white font-bold rounded-full transition-all shadow-xl hover:opacity-90 flex items-center gap-2"
                   >
-                    Audit gratuit (valeur €2,500) → 3 places restantes
+                    Audit gratuit (valeur €2,500)
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </RippleButton>
                   <motion.button
@@ -375,7 +340,7 @@ export default function AIInfrastructureLanding() {
                           whileHover={{ scale: 1.05, y: -4 }}
                           className="p-5 bg-gradient-to-br from-slate-50 to-white rounded-2xl border border-slate-200/60 hover:border-red-200 transition-all"
                         >
-                          <metric.icon className="w-5 h-5 text-red-600 mb-3" />
+                          <metric.icon className="w-5 h-5 text-[var(--primary)] mb-3" />
                           <div className="text-3xl font-bold text-slate-900 mb-1">
                             <CountUp end={metric.value.includes('€') ? 450 : 310} suffix={metric.value.includes('€') ? 'k' : '%'} />
                           </div>
@@ -404,7 +369,7 @@ export default function AIInfrastructureLanding() {
                               <div className="text-xs text-slate-600">{item.status}</div>
                             </div>
                           </div>
-                          <div className="text-2xl font-bold text-red-600">{item.count}</div>
+                          <div className="text-2xl font-bold text-[var(--primary)]">{item.count}</div>
                         </motion.div>
                       ))}
                     </div>
@@ -452,7 +417,7 @@ export default function AIInfrastructureLanding() {
               transition={{ delay: 0.3 }}
               className="flex items-center gap-2"
             >
-              <Clock className="w-5 h-5 text-red-600" />
+              <Clock className="w-5 h-5 text-[var(--primary)]" />
               <span className="text-sm font-semibold">Support 24/7</span>
             </motion.div>
             <motion.div
@@ -504,7 +469,7 @@ export default function AIInfrastructureLanding() {
                   transition={{ delay: i * 0.1 }}
                   className="text-center"
                 >
-                  <div className="text-3xl font-bold text-red-600">
+                  <div className="text-3xl font-bold text-[var(--primary)]">
                     <CountUp end={stat.value.includes('+') ? 50 : stat.value.includes('M') ? 24 : 98} suffix={stat.value.includes('+') ? '+' : stat.value.includes('M') ? 'M' : '%'} />
                   </div>
                   <div className="text-sm text-slate-600">{stat.label}</div>
@@ -520,7 +485,7 @@ export default function AIInfrastructureLanding() {
         <div className="container mx-auto max-w-4xl text-center">
           <motion.button
             whileHover={{ scale: 1.02 }}
-            className="px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white font-semibold rounded-full shadow-xl inline-flex items-center gap-2"
+            className="px-8 py-4 bg-[var(--primary)] text-white font-semibold rounded-full shadow-xl inline-flex items-center gap-2"
           >
             Rejoindre les leaders qui automatisent
             <ArrowRight className="w-5 h-5" />
@@ -535,7 +500,7 @@ export default function AIInfrastructureLanding() {
           <FadeIn>
             <div className="text-center mb-20 max-w-3xl mx-auto">
               <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-                Arrêtez de perdre <em className="not-italic font-light italic text-red-600">40% du temps</em> de vos équipes
+                Arrêtez de perdre <em className="not-italic font-light italic text-[var(--primary)]">40% du temps</em> de vos équipes
               </h2>
               <p className="text-xl text-slate-600">
                 Nos agents IA automatisent ce qui vous ralentit. Vous vous concentrez sur ce qui compte.
@@ -561,17 +526,17 @@ export default function AIInfrastructureLanding() {
                       <Cpu className="w-7 h-7 text-white" />
                     </motion.div>
                     <h3 className="text-3xl font-bold mb-4">
-                      Automatisation sans code → En production en <em className="not-italic font-light italic text-red-600">3 semaines</em>
+                      Automatisation sans code → En production en <em className="not-italic font-light italic text-[var(--primary)]">3 semaines</em>
                     </h3>
                     <p className="text-lg text-slate-600 leading-relaxed mb-4">
-                      Vos équipes perdent <em className="font-bold not-italic text-red-600">67%</em> de leur temps sur des tâches répétitives.
+                      Vos équipes perdent <em className="font-bold not-italic text-[var(--primary)]">67%</em> de leur temps sur des tâches répétitives.
                     </p>
                     <p className="text-lg text-slate-600 leading-relaxed">
                       Nos agents IA analysent vos workflows, détectent les processus automatisables
                       et déploient des automatisations en <em className="font-bold not-italic">72h</em>. Zéro code requis. Zéro migration.
                     </p>
                   </div>
-                  <div className="flex items-center gap-2 text-red-600 font-semibold mt-8 group-hover:gap-4 transition-all">
+                  <div className="flex items-center gap-2 text-[var(--primary)] font-semibold mt-8 group-hover:gap-4 transition-all">
                     En savoir plus
                     <ArrowRight className="w-5 h-5" />
                   </div>
@@ -612,7 +577,7 @@ export default function AIInfrastructureLanding() {
                     transition={{ duration: 0.6 }}
                     className="w-12 h-12 bg-gradient-to-br from-red-100 to-rose-100 rounded-xl flex items-center justify-center mb-5"
                   >
-                    <feature.icon className="w-6 h-6 text-red-600" />
+                    <feature.icon className="w-6 h-6 text-[var(--primary)]" />
                   </motion.div>
                   <h3 className="text-lg font-bold mb-2">{feature.title}</h3>
                   <p className="text-slate-600 text-sm leading-relaxed">{feature.desc}</p>
@@ -629,7 +594,7 @@ export default function AIInfrastructureLanding() {
           <FadeIn>
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Ces entreprises économisent déjà <em className="not-italic font-light italic text-red-600">+€450k/an</em>
+                Ces entreprises économisent déjà <em className="not-italic font-light italic text-[var(--primary)]">+€450k/an</em>
               </h2>
             </div>
           </FadeIn>
@@ -650,7 +615,7 @@ export default function AIInfrastructureLanding() {
                   <motion.div
                     animate={{ scale: [1, 1.05, 1] }}
                     transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                    className="text-6xl font-bold bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent mb-4"
+                    className="text-6xl font-bold bg-[var(--primary)] bg-clip-text text-transparent mb-4"
                   >
                     {stat.value}
                   </motion.div>
@@ -665,7 +630,7 @@ export default function AIInfrastructureLanding() {
           <div className="text-center mt-12">
             <motion.button
               whileHover={{ scale: 1.05 }}
-              className="px-10 py-5 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold rounded-full shadow-xl inline-flex items-center gap-2"
+              className="px-10 py-5 bg-[var(--primary)] text-white font-bold rounded-full shadow-xl inline-flex items-center gap-2"
             >
               Découvrir mon potentiel d&apos;économies
               <ArrowRight className="w-5 h-5" />
@@ -702,7 +667,7 @@ export default function AIInfrastructureLanding() {
                     onChange={(e) => setEmployees(parseInt(e.target.value))}
                     className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-red-600"
                   />
-                  <div className="text-center text-2xl font-bold text-red-600 mt-2">
+                  <div className="text-center text-2xl font-bold text-[var(--primary)] mt-2">
                     {employees} employés
                   </div>
                 </div>
@@ -714,14 +679,14 @@ export default function AIInfrastructureLanding() {
                 >
                   <div className="text-center">
                     <div className="text-sm text-slate-600 mb-2">Économies annuelles estimées</div>
-                    <div className="text-5xl font-bold text-red-600 mb-2">
+                    <div className="text-5xl font-bold text-[var(--primary)] mb-2">
                       {savings.toLocaleString()}€
                     </div>
                     <div className="text-sm text-slate-600">Soit {hoursPerMonth}h/mois économisées</div>
                   </div>
                 </motion.div>
 
-                <button className="w-full px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold rounded-full hover:from-red-700 hover:to-red-800 transition-all shadow-lg">
+                <button className="w-full px-8 py-4 bg-[var(--primary)] text-white font-bold rounded-full hover:from-red-700 hover:to-red-800 transition-all shadow-lg">
                   Obtenir mon audit personnalisé
                 </button>
               </div>
@@ -781,7 +746,7 @@ export default function AIInfrastructureLanding() {
                     </div>
                   </div>
                   <div className="pt-4 border-t border-slate-100">
-                    <div className="text-2xl font-bold text-red-600">{testimonial.metric}</div>
+                    <div className="text-2xl font-bold text-[var(--primary)]">{testimonial.metric}</div>
                   </div>
                 </motion.div>
               </FadeIn>
@@ -796,7 +761,7 @@ export default function AIInfrastructureLanding() {
           <FadeIn>
             <div className="text-center mb-20">
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                De zéro à <em className="not-italic font-light italic text-red-600">+40h/semaine</em> économisées en 4 semaines
+                De zéro à <em className="not-italic font-light italic text-[var(--primary)]">+40h/semaine</em> économisées en 4 semaines
               </h2>
               <p className="text-xl text-slate-600">
                 Déploiement progressif sans interrompre vos opérations
@@ -878,7 +843,7 @@ export default function AIInfrastructureLanding() {
             <div className="text-center">
               <h3 className="text-2xl font-bold mb-3">Commençons par la Phase 1</h3>
               <p className="text-slate-600 mb-6">Votre audit stratégique gratuit en 48h</p>
-              <button className="px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white font-semibold rounded-full hover:from-red-700 hover:to-red-800 transition-all shadow-lg">
+              <button className="px-8 py-4 bg-[var(--primary)] text-white font-semibold rounded-full hover:from-red-700 hover:to-red-800 transition-all shadow-lg">
                 Lancer mon audit
               </button>
             </div>
@@ -892,7 +857,7 @@ export default function AIInfrastructureLanding() {
           <FadeIn>
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Vos <em className="not-italic font-light italic text-red-600">dernières questions</em> avant de nous rejoindre
+                Vos <em className="not-italic font-light italic text-[var(--primary)]">dernières questions</em> avant de nous rejoindre
               </h2>
             </div>
           </FadeIn>
@@ -1000,9 +965,10 @@ export default function AIInfrastructureLanding() {
                     transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut" }}
                     whileHover={{ scale: 1.05, y: -4 }}
                     whileTap={{ scale: 0.95 }}
-                    className="px-10 py-5 bg-white text-red-600 hover:bg-red-50 font-bold rounded-full transition-all shadow-2xl shadow-red-900/30 flex items-center gap-2"
+                    className="px-10 py-5 bg-white hover:bg-red-50 font-bold rounded-full transition-all shadow-2xl shadow-red-900/30 flex items-center gap-2"
+                    style={{ color: 'var(--primary)' }}
                   >
-                    Réserver l&apos;audit gratuit → 3 places restantes en mai
+                    Réserver l&apos;audit gratuit
                     <ArrowRight className="w-5 h-5" />
                   </motion.button>
                 </div>
@@ -1017,7 +983,7 @@ export default function AIInfrastructureLanding() {
                   </div>
                   <div className="flex items-center justify-center gap-2">
                     <Check className="w-4 h-4" />
-                    <span>Seulement 3 entreprises auditées par mois (nous refusons 40% des demandes)</span>
+                    <span>Accompagnement personnalisé et sur-mesure</span>
                   </div>
                 </div>
               </div>
@@ -1031,11 +997,11 @@ export default function AIInfrastructureLanding() {
         <div className="container mx-auto max-w-7xl">
           <div className="text-center mb-8">
             <p className="text-slate-600 mb-2">Une dernière question ?</p>
-            <a href="mailto:contact@synthetique.ai" className="text-red-600 font-semibold hover:text-red-700">
+            <a href="mailto:contact@synthetique.ai" className="text-[var(--primary)] font-semibold hover:text-red-700">
               contact@synthetique.ai
             </a>
             <span className="text-slate-600 mx-2">•</span>
-            <a href="tel:+33100000000" className="text-red-600 font-semibold hover:text-red-700">
+            <a href="tel:+33100000000" className="text-[var(--primary)] font-semibold hover:text-red-700">
               +33 1 XX XX XX XX
             </a>
             <p className="text-sm text-slate-500 mt-2">Réponse garantie sous 2h (jours ouvrés)</p>
@@ -1044,8 +1010,8 @@ export default function AIInfrastructureLanding() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-8 border-t border-slate-200">
             <div className="flex items-center gap-2.5">
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-red-500 to-red-700 rounded-xl blur-sm opacity-40" />
-                <div className="relative w-9 h-9 bg-gradient-to-br from-red-600 to-red-700 rounded-xl flex items-center justify-center">
+                <div className="absolute inset-0 rounded-xl blur-sm opacity-40" style={{ background: 'var(--primary)' }} />
+                <div className="relative w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'var(--primary)' }}>
                   <Sparkles className="w-5 h-5 text-white" />
                 </div>
               </div>
@@ -1076,10 +1042,10 @@ export default function AIInfrastructureLanding() {
           >
             <div className="container mx-auto flex items-center justify-between">
               <div>
-                <p className="font-bold text-lg">Encore 3 audits gratuits disponibles en mai</p>
-                <p className="text-sm text-slate-600">Valeur €2,500 • Résultats sous 48h</p>
+                <p className="font-bold text-lg">Audit gratuit disponible</p>
+                <p className="text-sm" style={{ color: 'var(--text-muted)' }}>Valeur €2,500 • Résultats sous 48h</p>
               </div>
-              <button className="px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white font-semibold rounded-full hover:from-red-700 hover:to-red-800 transition-all shadow-lg">
+              <button style={{ background: 'var(--primary)' }} className="px-6 py-3 text-white font-semibold rounded-full hover:opacity-90 transition-all shadow-lg">
                 Réserver maintenant
               </button>
             </div>
