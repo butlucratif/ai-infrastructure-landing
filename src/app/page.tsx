@@ -496,9 +496,9 @@ export default function AIInfrastructureLanding() {
 
       {/* Bento Grid - Features */}
       <section id="solution" className="py-32 px-6 lg:px-8 relative">
-        <div className="container mx-auto max-w-7xl">
+        <div className="mx-auto" style={{ maxWidth: '1200px' }}>
           <FadeIn>
-            <div className="text-center mb-20 max-w-3xl mx-auto">
+            <div className="text-center mb-20">
               <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
                 Arrêtez de perdre <em className="not-italic font-light italic text-[var(--primary)]">40% du temps</em> de vos équipes
               </h2>
@@ -509,7 +509,7 @@ export default function AIInfrastructureLanding() {
           </FadeIn>
 
           {/* Bento Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto" style={{ maxWidth: '1200px' }}>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Large feature */}
             <FadeIn delay={0.1}>
               <motion.div
