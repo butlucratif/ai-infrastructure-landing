@@ -143,7 +143,7 @@ export default function AIInfrastructureLanding() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [showStickyCTA, setShowStickyCTA] = useState(false);
   const [employees, setEmployees] = useState(50);
-  const savings = Math.round(employees * 9000); // €9k per employee/year
+  const savings = Math.round(employees * 4000); // €4k per employee/year (PME)
   const hoursPerMonth = employees * 40;
 
   // Sticky CTA on scroll
@@ -222,7 +222,7 @@ export default function AIInfrastructureLanding() {
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-red-600" />
                   </div>
                   <span className="text-sm font-medium bg-[var(--primary)] bg-clip-text text-transparent">
-                    Déjà 50+ entreprises françaises automatisées • +€2.1M économisés
+                    Déjà 15 entreprises françaises automatisées • +€400k économisés
                   </span>
                 </div>
               </FadeIn>
@@ -249,7 +249,7 @@ export default function AIInfrastructureLanding() {
                     style={{ background: 'var(--primary)' }}
                     className="group px-8 py-4 text-white font-bold rounded-full transition-all shadow-xl hover:opacity-90 flex items-center gap-2"
                   >
-                    Audit gratuit (valeur €2,500)
+                    Audit gratuit (valeur €1,500)
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </RippleButton>
                   <motion.button
@@ -276,7 +276,7 @@ export default function AIInfrastructureLanding() {
                       ))}
                     </motion.div>
                     <span className="text-sm text-slate-600">
-                      <span className="font-bold text-slate-900">50+ entreprises françaises</span> • +€2.1M économisés • 8,420h/mois automatisées
+                      <span className="font-bold text-slate-900">15 entreprises françaises</span> • +€400k économisés • 1,200h/mois automatisées
                     </span>
                   </div>
 
@@ -330,7 +330,7 @@ export default function AIInfrastructureLanding() {
                     <div className="grid grid-cols-2 gap-4">
                       {[
                         { label: "Productivité", value: "+310", icon: TrendingUp },
-                        { label: "Économies", value: "€450k", icon: BarChart3 },
+                        { label: "Économies", value: "€60k", icon: BarChart3 },
                       ].map((metric, i) => (
                         <motion.div
                           key={i}
@@ -458,8 +458,8 @@ export default function AIInfrastructureLanding() {
             {/* Stats clients */}
             <div className="grid md:grid-cols-3 gap-6 mt-12 max-w-3xl mx-auto">
               {[
-                { value: "50+", label: "Entreprises accompagnées" },
-                { value: "€24M", label: "Économisés pour nos clients" },
+                { value: "15", label: "Entreprises accompagnées" },
+                { value: "€3M", label: "Économisés pour nos clients" },
                 { value: "98%", label: "Taux de satisfaction" }
               ].map((stat, i) => (
                 <motion.div
@@ -509,7 +509,7 @@ export default function AIInfrastructureLanding() {
           </FadeIn>
 
           {/* Bento Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto" style={{ maxWidth: '1200px' }}>
             {/* Large feature */}
             <FadeIn delay={0.1}>
               <motion.div
@@ -594,14 +594,14 @@ export default function AIInfrastructureLanding() {
           <FadeIn>
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Ces entreprises économisent déjà <em className="not-italic font-light italic text-[var(--primary)]">+€450k/an</em>
+                Ces entreprises économisent déjà <em className="not-italic font-light italic text-[var(--primary)]">+€60k/an</em>
               </h2>
             </div>
           </FadeIn>
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { value: "€450k", label: "Économies moyennes annuelles", sublabel: "Constaté sur 12 mois" },
+              { value: "€60k", label: "Économies moyennes annuelles", sublabel: "Constaté sur 12 mois" },
               { value: "10 mois", label: "Retour sur investissement garanti", sublabel: "Ou remboursé à 100%" },
               { value: "47h/sem", label: "Temps libéré par employé", sublabel: "Réaffecté sur des tâches à valeur" }
             ].map((stat, i) => (
@@ -785,7 +785,7 @@ export default function AIInfrastructureLanding() {
                   phase: "Phase 1",
                   title: "Audit gratuit des processus automatisables",
                   duration: "48h",
-                  description: "Nos experts analysent vos workflows et identifient les 5-7 automatisations à ROI immédiat (€150k+ d'économies potentielles). Rapport détaillé remis sous 48h."
+                  description: "Nos experts analysent vos workflows et identifient les 5-7 automatisations à ROI immédiat (€35k+ d'économies potentielles). Rapport détaillé remis sous 48h."
                 },
                 {
                   phase: "Phase 2",
@@ -878,11 +878,11 @@ export default function AIInfrastructureLanding() {
               },
               {
                 q: "Si ça ne fonctionne pas, je perds mon investissement ?",
-                a: "Garantie ROI : Si vous n'économisez pas au minimum €150k sur 12 mois, nous vous remboursons 100% de votre investissement. De plus, POC gratuit en semaine 1 : vous voyez les résultats AVANT de vous engager. Aucun risque."
+                a: "Garantie ROI : Si vous n'économisez pas au minimum €35k sur 12 mois, nous vous remboursons 100%. POC gratuit en semaine 1 : vous voyez les résultats AVANT de vous engager. Adapté aux PME et équipes de 10-100 personnes."
               },
               {
                 q: "Combien ça coûte vraiment ? (avec tous les frais cachés)",
-                a: "Investissement initial : €15k-€45k selon la complexité. Abonnement mensuel : €2.5k-€8k (support + hébergement + optimisation continue). ROI moyen : 10 mois. Économies annuelles moyennes : €450k. Zéro frais caché, zéro surprise. Devis détaillé en 48h après l'audit gratuit."
+                a: "Investissement initial : €8k-€25k selon la complexité. Abonnement mensuel : €1.5k-€4k (support + hébergement + optimisation continue). ROI moyen : 10 mois. Économies annuelles moyennes : €60k. Zéro frais caché, zéro surprise. Devis détaillé en 48h après l'audit gratuit."
               }
             ].map((faq, i) => (
               <FadeIn key={i} delay={i * 0.05}>
@@ -944,10 +944,10 @@ export default function AIInfrastructureLanding() {
                 <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight">
                   Votre équipe perd 40h/semaine sur des tâches répétitives.
                   <br />
-                  Ça vous coûte <em className="not-italic font-light italic">€350k/an minimum</em>.
+                  Ça vous coûte <em className="not-italic font-light italic">€80k/an minimum</em>.
                 </h2>
                 <p className="text-xl text-red-100 max-w-2xl mx-auto">
-                  Identifiez vos 5-7 processus automatisables en 48h avec notre audit gratuit (valeur €2,500)
+                  Identifiez vos 5-7 processus automatisables en 48h avec notre audit gratuit (valeur €1,500)
                   <br />
                   → Rapport détaillé avec ROI projeté et économies potentielles
                   <br />
@@ -1043,7 +1043,7 @@ export default function AIInfrastructureLanding() {
             <div className="container mx-auto flex items-center justify-between">
               <div>
                 <p className="font-bold text-lg">Audit gratuit disponible</p>
-                <p className="text-sm" style={{ color: 'var(--text-muted)' }}>Valeur €2,500 • Résultats sous 48h</p>
+                <p className="text-sm" style={{ color: 'var(--text-muted)' }}>Valeur €1,500 • Résultats sous 48h</p>
               </div>
               <button style={{ background: 'var(--primary)' }} className="px-6 py-3 text-white font-semibold rounded-full hover:opacity-90 transition-all shadow-lg">
                 Réserver maintenant
